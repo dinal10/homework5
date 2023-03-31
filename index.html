@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        font-family: Arial;
+      }
+
+      /* Style the tab */
+      .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+      }
+
+      /* Style the buttons inside the tab */
+      .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        font-size: 17px;
+      }
+
+      /* Change background color of buttons on hover */
+      .tab button:hover {
+        background-color: #ddd;
+      }
+
+      /* Create an active/current tablink class */
+      .tab button.active {
+        background-color: #ccc;
+      }
+
+      /* Style the tab content */
+      .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="tab">
+      <button class="tablinks" onclick="openTab(event, 'Register')">Register</button>
+      <button class="tablinks" onclick="openTab(event, 'List')">List Peserta</button>
+    </div>
+
+    <div id="Register" class="tabcontent">
+      <h3>Register Peserta</h3>
+      <form id="registration-form">
+        <label for="name">Nama:</label>
+        <input type="text" id="name" name="name" minlength="10" required /><br />
+        <br />
+        <label for="age">Umur:</label>
+        <input type="number" id="age" name="age" min="25" required /><br />
+        <br />
+        <label for="money">Uang Sangu:</label>
+        <input type="number" id="money" name="money" min="100000" max="1000000" required /><br />
+        <br />
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+
+    <div id="List" class="tabcontent">
+      <h3>List Peserta</h3>
+      <div id="empTable"></div>
+    </div>
+
+    <script>
+      // create students array
+      let arrStudents = [];
+
+      // function Student(firstname, lastname){
+
+      // }
+
+      class Student {
+        constructor(nama, umur, uang_saku) {
+          this.nama = nama;
+          this.umur = umur;
+          this.lastname = uang_saku;
+        }
+      }
+
+      function openTab(evt, cityName) {
+        showTableData();
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+      }
+
+      async function setAction(form) {
+        let nama = document.getElementById("nama").value;
+        let umur = document.getElementById("umur").value;
+        let uang_saku = document.getElementById("uang_saku").value;
+
+        let newStudent = await new Student(nama, umur, uang_saku);
+        await arrStudents.push({ nama: newStudent.nama, umur: newStudent.umur, uang_saku: newStudent.uang_saku });
+        // console.log(arrStudents)
+      }
+
+      function showTableData() {
+        var outputHTML = "";
+        outputHTML += "<table border='2px' width='400'>";
+
+        outputHTML += "<tr><td> nama </td> <td> umur </td> <td> uang_saku </td> </tr>";
+        console.log(arrStudents);
+        for (let i = 0; i < arrStudents.length; i++) {
+          console.log(arrStudents[i].nama);
+          outputHTML += "<tr><td>" + arrStudents[i].nama + "</td>" + "<+>" + arrStudents[i].umur + arrStudents[i].uang_saku;
+        }
+
+        outputHTML += "</table>";
+
+        document.getElementById("empTable").innerHTML = outputHTML;
+      }
+    </script>
+  </body>
+</html>
